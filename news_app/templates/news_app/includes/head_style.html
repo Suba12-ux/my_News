@@ -1,0 +1,38 @@
+<style>
+    /* Добавьте эти стили в ваш CSS */
+    body {
+        background-color: #A56826;
+        padding: 0 40px;
+        position: relative;
+    }
+
+    body::before, body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+        background: #D0AF59;
+        z-index: 1000;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    body::before {
+        left: 0;
+        border-right: 1px solid #A9935B;
+    }
+
+    body::after {
+        right: 0;
+        border-left: 1px solid #A9935B;
+    }
+
+    .container-wrapper {
+        max-width: 1300px;
+        margin: 0 auto;
+        background-color: white;
+        box-shadow: 0 0 0px rgba(0,0,0,0);
+        position: relative;
+        z-index: 10;
+    }
+</style>

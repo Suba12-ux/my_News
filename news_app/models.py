@@ -5,7 +5,7 @@ class Post(models.Model):
 	content = models.TextField(default='Основной текст поста.', verbose_name='Текст')
 	created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время поста')
 	updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
-	photo = models.ImageField(upload_to='Photos/', blank=True, null=True, verbose_name='Фото') # не обязательно для заполнения.
+	photo = models.ImageField(upload_to='news_app/templates/news_app/photos', blank=True, null=True, verbose_name='Фото') # не обязательно для заполнения.
 	watched = models.IntegerField(default=0, verbose_name='Просмотры')
 	is_published = models.BooleanField(default=True, verbose_name='Видимость')
 
