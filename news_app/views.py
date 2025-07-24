@@ -3,9 +3,9 @@ from .models import Post
 
 def main_page(requers):
 	'''Главная страница'''
-	posts = Post.objects.all() # SELET * FROM DataBase			Импорт всей базы данных 
-	data = {
+	content_db = Post.objects.values('title') # ORM запрос		Импорт всей базы данных 
+	text = {
 		'title': 'Главная страница',
-		'content': posts
+		'total': content_db,
 	}
-	return render(requers, 'news_app/index.html', data)
+	return render(requers, 'news_app/index.html', text)
