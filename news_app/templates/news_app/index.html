@@ -1,42 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    {% include 'news_app/includes/head_style.html' %}   
-</head>
-<body style="background-color: #F7BD7E">
+{% include 'base.html' %}
 
-    {% include 'news_app/includes/sidebar.html' %}
-
-    
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-            
-        
-        
+{% block main %}
         {% for obj in total %}
-            <div class="col-sm-9 p-3">
-                
+            <div class="col-sm-9 p-3 sticky-top">
                 <div class="clearfix">
-                    
-                    
+                
                     {% if obj.photo %}
                         <img src="{{ obj.photo.url }}" class="col-md-6 float-md-end mb-3 ms-md-3" alt="...">
                     {% endif %}
-                  <h1>
+                  <h3>
                     {{ obj.title }}
-                  </h1>
+                  </h3>
                   <p>
                     {{ obj.content }}
                   </p>
                 </div>
             </div>
         {% endfor %}
-        
-        
-        
-        <!-- Остальной контент -->
-     
-    
-</body>
-</html>
+{% endblock main %}
