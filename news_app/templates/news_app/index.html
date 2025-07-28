@@ -1,20 +1,41 @@
 {% include 'base.html' %}
+{% load static %} 
+
+
 
 {% block main %}
+
         {% for obj in total %}
-            <div class="col-sm-9 p-3 sticky-top">
-                <div class="clearfix">
-                
-                    {% if obj.photo %}
-                        <img src="{{ obj.photo.url }}" class="col-md-6 float-md-end mb-3 ms-md-3" alt="...">
-                    {% endif %}
-                  <h3>
+            <div class="col-sm-9 p-3 secondary">
+                <div class="secondary">
+                  <h5>
                     {{ obj.title }}
-                  </h3>
-                  <p>
-                    {{ obj.content }}
-                  </p>
+                  </h5>
+                  
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ obj.content | truncatewords:5}}
+                    </a>
+
+                    <ul class="dropdown-menu col-sm-11 p-2 secondary" style="background-color: #F7B984;">
+                        <p>
+                            {% if obj.photo %}
+                                <div class="row" style="margin-right: 20px;">
+                                    <div class="col-5.col-sm-" >
+                                        {{ obj.content }} <!-- | truncatewords:20   -->
+                                    
+                                    </div>
+                                    <div class="col-7">
+                                        <img src="{{ obj.photo.url }}"  style="waith: 300px; height: 300px;" alt="вроде как тут должна была быть фотка 🤔" >
+                                    </div> 
+                                </div> 
+                            {% else %}
+                                {{ obj.content }}
+                            {% endif %} 
+                        </p>
+                    </ul>
+                  
                 </div>
             </div>
         {% endfor %}
+
 {% endblock main %}

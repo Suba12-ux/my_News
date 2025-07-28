@@ -1,15 +1,19 @@
-<nav class="navbar" style="background-color: #A9935B;" data-bs-theme="light" onwaiting="">
+{% load static %}
+<nav class="navbar sticky-top" style="background-color: #A9935B;" data-bs-theme="light" onwaiting="">
     <div class="container-fluid" style="background-color: #F7B975">
-        <a class="navbar-brand" href="#">ЛОГО</a>
+        
+        <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="Bootstrap">
+            <img src="{% static '/img/logo1.png' %}" class = "icon" width="250" height="115">
+        </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">Главная</a>
-                <a class="nav-link" href="#">Про меня</a>
                 <a class="nav-link" href="#">Фото</a>
-                <a class="nav-link disabled" aria-disabled="true">...</a>
+                <a class="nav-link" href="{% url 'page_singin' %}">Войти</a>
+                <a class="nav-link" href="{% url 'page_regist' %}">Регистрация</a>
             </div>
         </div>
     </div>
