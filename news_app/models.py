@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.files import File
+from django.contrib.auth import authenticate
 
 class Post(models.Model):
 	title = models.CharField(max_length=255, verbose_name='Название')

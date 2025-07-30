@@ -19,13 +19,13 @@
                     <ul class="dropdown-menu col-sm-11 p-2 secondary" style="background-color: #F7B984;">
                         <p>
                             {% if obj.photo %}
-                                <div class="row" style="margin-right: 20px;">
+                                <div class="row">
                                     <div class="col-5.col-sm-" >
                                         {{ obj.content }} <!-- | truncatewords:20   -->
-                                    
                                     </div>
-                                    <div class="col-7">
-                                        <img src="{{ obj.photo.url }}"  style="waith: 300px; height: 300px;" alt="вроде как тут должна была быть фотка 🤔" >
+                                    
+                                    <div class="col-7 " style="">
+                                        <img src="{{ obj.photo.url }}" style="max-width: 40%;" alt="вроде как тут должна была быть фотка 🤔" >
                                     </div> 
                                 </div> 
                             {% else %}

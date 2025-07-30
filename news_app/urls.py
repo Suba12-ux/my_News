@@ -5,9 +5,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', main_page, name='page_main'),
-    path('photos', galary, name='page_photo'),
-    path('singin', singin, name='page_singin'),
+    path('singin', user_login, name='page_singin'),
+    path('singout', user_logout, name='page_singout'),
     path('registration', registration, name='page_regist'),
+    path('add_post', PostAddForm, name='creat_post'),
+
 ] 
 
 if settings.DEBUG: 

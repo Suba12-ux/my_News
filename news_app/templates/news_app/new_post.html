@@ -1,0 +1,47 @@
+{% include 'base.html' %}
+{% load static %} 
+
+
+{% block main %}
+
+            <!-- Add post-->
+            <div class="d-flex justify-content-center">
+                <div class="card col-8 mb-4 mt-4" style="background-color: #F7BD6E;">
+                    <div class="card-body">
+                        <h2 class="text-center">Добавление новой статьи</h2>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <!--  Fields for filling-->
+                            
+                            <div>
+                                {% csrf_token %}
+                                <input type="hidden" name="csrfmiddlewaretoken" value="1a7PHLHTRx8Sw0dH0fZEJhG0qmM6DgmHwSzhFvF16RnABVuToWnPfEFd2X58cUTj">
+                                <p>
+                                    <div class="row" style="margin: 10px;">
+                                        <label for="id_title">Заголовок статьи:</label>
+                                        {% csrf_token %}
+                                        <input type="text" name="title" class="form-control" maxlength="255" required id="id_title">
+                                    </div>
+                                </p>
+                                <p>
+                                    <div class="row" style="margin: 10px;">
+                                        <label for="id_content">Текст статьи:</label>
+                                        <textarea name="content" cols="40" rows="10" class="form-control" required id="id_content">Скоро все будет...</textarea>
+                                    </div>
+                                </p>
+                                <p>
+                                    <div class="row" style="margin: 10px;">
+                                        <label for="id_photo">Изображения:</label>
+                                        {% csrf_token %}
+                                        <input type="file" name="photo" accept="image/*" id="id_photo" class="btn btn-dark">
+                                    </div>
+                                </p>
+                            </div>
+
+                            <button class="btn btn-dark" type="submit">Добавить статью</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div><div style="margin-top: 100px;"></div></div>
+
+{% endblock main %}
