@@ -1,47 +1,121 @@
-{% include 'base.html' %}
-{% load static %} 
-
+{% extends 'base.html' %}
 
 {% block main %}
-
-            <!-- Add post-->
-            <div class="d-flex justify-content-center">
-                <div class="card col-8 mb-4 mt-4" style="background-color: #F7BD6E;">
-                    <div class="card-body">
-                        <h2 class="text-center">Добавление новой статьи</h2>
-                        <form action="" method="post" enctype="multipart/form-data">
-                            <!--  Fields for filling-->
-                            
-                            <div>
-                                {% csrf_token %}
-                                <input type="hidden" name="csrfmiddlewaretoken" value="1a7PHLHTRx8Sw0dH0fZEJhG0qmM6DgmHwSzhFvF16RnABVuToWnPfEFd2X58cUTj">
-                                <p>
-                                    <div class="row" style="margin: 10px;">
-                                        <label for="id_title">Заголовок статьи:</label>
-                                        {% csrf_token %}
-                                        <input type="text" name="title" class="form-control" maxlength="255" required id="id_title">
-                                    </div>
-                                </p>
-                                <p>
-                                    <div class="row" style="margin: 10px;">
-                                        <label for="id_content">Текст статьи:</label>
-                                        <textarea name="content" cols="40" rows="10" class="form-control" required id="id_content">Скоро все будет...</textarea>
-                                    </div>
-                                </p>
-                                <p>
-                                    <div class="row" style="margin: 10px;">
-                                        <label for="id_photo">Изображения:</label>
-                                        {% csrf_token %}
-                                        <input type="file" name="photo" accept="image/*" id="id_photo" class="btn btn-dark">
-                                    </div>
-                                </p>
-                            </div>
-
-                            <button class="btn btn-dark" type="submit">Добавить статью</button>
-                        </form>
-                    </div>
-                </div>
+    
+    <div class="create-post-container">
+        <h2 class="create-post-title">Создать новый пост</h2>
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Заголовок -->
+            <div class="mb-4">
+                <label for="id_title" class="form-label">Заголовок</label>
+                <input type="text" 
+                       name="title" 
+                       id="id_title" 
+                       class="form-control" 
+                       maxlength="255" 
+                       required
+                       placeholder="Введите заголовок поста">
             </div>
-            <div><div style="margin-top: 100px;"></div></div>
+            
+            <!-- Текст статьи -->
+            <div class="mb-4">
+                <label for="id_content" class="form-label">Текст статьи</label>
+                <textarea name="content" 
+                          id="id_content" 
+                          class="form-control" 
+                          rows="10" 
+                          required
+                          placeholder="Напишите содержание вашего поста..."></textarea>
+            </div>
+            
+            <!-- Изображение -->
+            <div class="mb-4">
+                <label class="form-label">Изображение (необязательно)</label>
+                <div class="file-input-wrapper">
+                    <label class="file-input-label" for="id_photo">
+                        <i class="bi bi-cloud-arrow-up"></i> Выберите изображение или перетащите его сюда
+                    </label>
+                    <input type="file" 
+                           name="photo" 
+                           id="id_photo" 
+                           class="file-input" 
+                           accept="image/*">
+                </div>
+                <img id="image-preview" class="preview-image" alt="Предпросмотр изображения">
+            </div>
+            
+            <!-- Кнопка отправки -->
+            <button type="submit" class="submit-btn">
+                <i class="bi bi-send"></i> Опубликовать пост
+            </button>
+        </form>
+    </div>
 
-{% endblock main %}
+    <!-- Подключение Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <script>
+    // Предпросмотр изображения
+    document.getElementById('id_photo').addEventListener('change', function(e) {
+        const preview = document.getElementById('image-preview');
+        const file = e.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+
+    // Drag and drop для изображения
+    const fileInput = document.getElementById('id_photo');
+    const dropArea = document.querySelector('.file-input-label');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        dropArea.style.backgroundColor = '#D0AF59';
+    }
+
+    function unhighlight() {
+        dropArea.style.backgroundColor = '#A9935B';
+    }
+
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        
+        // Триггерим событие change для предпросмотра
+        const event = new Event('change');
+        fileInput.dispatchEvent(event);
+    }
+    </script>
+{% endblock %}

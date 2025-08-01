@@ -1,16 +1,23 @@
 {% load static %}
 <nav class="navbar" style="background-color: #A9935B;" data-bs-theme="light" onwaiting="">
-    <div class="container-fluid" style="background-color: #F7B975">
-        
-        <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="Bootstrap">
-            <img src="{% static '/img/logo1.png' %}" class = "icon" width="250" height="115">
-        </a>
-        
-        <h1>{{ request.user.username }}</h1>
+    <div class="container-fluid row-auto" style="background-color: #F7B975">
+                <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="Bootstrap">
+                    <img src="{% static '/img/logo1.png' %}" class = "icon" width="250" height="115" style="transition: transform 0.3s ease;">
+                </a>
+                    <h1 style="
+                        color: #FFD9B5;
+                        display: block;
+                        font-size: 2em;
+                        margin-top: 0.67em;
+                        margin-bottom: 0.67em;
+                        margin-left: 0;
+                        margin-right: 0;
+                        font-weight: bold;
+                    ">{{ request.user.username }}</h1>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
 
 
         {% if not request.user.is_authenticated %}

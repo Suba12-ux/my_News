@@ -1,41 +1,77 @@
 {% include 'base.html' %}
-{% load static %} 
-
-
 
 {% block main %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <div class="container py-4">
+        <div class="post-list">
+            {% for obj in total %}
+            
+            <div class="post-container">
+                <div class="post-header">
+                    
+                    <h2 class="post-title">{{ obj.title }}</h2>
+                    {% if request.user.is_authenticated and obj.autor == request.user %}
+                    <div class="post-actions">
+                        <a href="{% url 'edit_post' obj.id %}" class="btn btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="{% url 'del_post' obj.id %}" class="btn btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="post-content">
+                    {% if obj.photo %}
+                    <div class="row">
+                        <div class="col-md-6 order-md-2">
+                            <img src="{{ obj.photo.url }}" class="post-image img-fluid" alt="{{ obj.title }}">
+                        </div>
+                        <div class="col-md-6 order-md-1">
+                            <p>{{ obj.content }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>{{ obj.content }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="post-footer">
+                    <div class="post-author">
+                        {% if obj.autor.profile.photo %}
+                        <img src="{{ obj.autor.profile.photo.url }}" width="30" height="30" class="rounded-circle me-2" alt="{{ obj.autor.username }}">
+                        {% endif %}
+                        <span>{{ obj.autor.username }}</span>
+                    </div>
 
-        {% for obj in total %}
-            <div class="col-sm-9 p-3 secondary">
-                <div class="secondary">
-                  <h5>
-                    {{ obj.title }}
-                  </h5>
-                  
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ obj.content | truncatewords:5}}
-                    </a>
-
-                    <ul class="dropdown-menu col-sm-11 p-2 secondary" style="background-color: #F7B984;">
-                        <p>
-                            {% if obj.photo %}
-                                <div class="row">
-                                    <div class="col-5.col-sm-" >
-                                        {{ obj.content }} <!-- | truncatewords:20   -->
-                                    </div>
-                                    
-                                    <div class="col-7 " style="">
-                                        <img src="{{ obj.photo.url }}" style="max-width: 40%;" alt="вроде как тут должна была быть фотка 🤔" >
-                                    </div> 
-                                </div> 
-                            {% else %}
-                                {{ obj.content }}
-                            {% endif %} 
-                        </p>
-                    </ul>
-                  
+                    <div class="post-date">
+                        <i class="bi bi-clock"></i> {{ obj.created_at|date:"d M Y H:i" }}
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+            {% empty %}
+            <div class="post-container text-center py-5">
+                <h3>Пока нет постов</h3>
+                <p>Будьте первым, кто поделится чем-то интересным!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
+    <!-- Подключение Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <script>
+    // Анимация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        const posts = document.querySelectorAll('.post-container');
+        posts.forEach((post, index) => {
+            setTimeout(() => {
+                post.style.opacity = '1';
+                post.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
+    </script>
 {% endblock main %}
