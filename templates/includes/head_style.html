@@ -1,129 +1,214 @@
 <style>
-    /* Добавьте эти стили в ваш CSS */
-    body {
-        background-color: #A56826;
-        padding: 0 40px;
-        position: relative;
-    }
-
-    body::before, body::after {
-        content: "";
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 40px;
-        background: #D0AF59;
-        z-index: 1000;
-        box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    body::before {
-        left: 0;
-        border-right: 1px solid #A9935B;
-    }
-
-    body::after {
-        right: 0;
-        border-left: 1px solid #A9935B;
-    }
-
+    /* Основные стили контейнера */
     .container-wrapper {
-        max-width: 1300px;
+        max-width: 100%;
         margin: 0 auto;
-        background-color: black;
-        box-shadow: 0 0 0px rgba(0,0,0,0);
-        position: relative;
-        z-index: 10;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #A9935B;
+        color: #000;
     }
-    
+
+    /* Стили форм и инпутов */
     .form-control {
-    border: 2px solid #A9935B; /* Цвет как у фона */
-    background-color: #A9935B;
+        border: 2px solid #D0AF59;
+        background-color: #D0AF59;
+        color: #000;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #A56826;
+        box-shadow: 0 0 0 0.25rem rgba(165, 104, 38, 0.25);
+    }
+
+    /* Кнопки */
+    .btn-dark {
+        background-color: #A56826;
+        color: #fff;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-dark:hover {
+        background-color: #8a4e1a;
+        transform: translateY(-2px);
+    }
+
+    /* Уведомления */
+    .alert {
+        border-radius: 4px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        background-color: #D0AF59;
+        border: 1px solid #A9935B;
+        color: #000;
+    }
+
+    /* Ссылки */
+    a {
+        color: #000;
+        text-decoration: none;
+        transition: all 0.3s ease;
     }
 
     a:hover {
-      transform: scale(1.002); /* Увеличение при наведении */
+        color: #A56826;
+        text-decoration: underline;
     }
 
-    a {
-      transition: transform 0.3s ease; /* Плавная анимация */
-    }
-
-    img {
-      max-width: 100%; /* Ограничение по ширине контейнера */
-      height: auto; /* Сохранение пропорций */
-      display: block; /* Убирает лишнее пространство снизу */
-      margin: auto; /* Центрирование */
-      border-radius: 8px; /* Скругление углов */
-      /* box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Тень */
-      transition: transform 0.3s ease; /* Плавная анимация */
-    }
-
-    img:hover {
-      transform: scale(1.02); /* Увеличение при наведении */
-    }
-
-    div {
-      transition: transform 0.3s ease; /* Плавная анимация */
-    }
-
-    div:hover {
-      transform: scale(1.002); /* Увеличение на 0.2% */
-    }
-
-
-    .file-input-label:hover {
-      background: #0b7dda;
-    }
-
-    .file-input-label::before {
-      content: "📁"; /* Иконка */
-      font-size: 1.2em;
-    }
-
-    .btn.btn-dark {
-      background-color: #A9935B; /* Основной темный цвет */
-      color: black;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Изменение цвета при наведении */
-    .btn.btn-dark:hover {
-      background-color: #A9905B; /* Более темный оттенок */
-      transform: translateY(-2px);
-    }
-
-    /* Эффект при клике */
-    .btn.btn-dark:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* Стили для загрузки файлов */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        margin: 10px 0;
     }
 
     #id_photo::file-selector-button {
-      background-color: #343a40; /* Основной цвет кнопки */
-      color: grey;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
+        background-color: #A9935B;
+        color: #000;
+        border: 1px solid #000;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
 
     #id_photo:hover::file-selector-button {
-      background-color: #23272b; /* Цвет при наведении */
-      transform: translateY(-1px);
+        background-color: #D0AF59;
     }
 
-    #id_photo:active::file-selector-button {
-      transform: translateY(1px);
+    /* Стили для формы создания поста */
+    .create-post-container {
+        background-color: #A9935B;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 20px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #D0AF59;
     }
 
+    .create-post-title {
+        color: #000;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        border-bottom: 2px solid #D0AF59;
+        padding-bottom: 10px;
+    }
+    
+    .form-label {
+        color: #000;
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    textarea.form-control {
+        min-height: 200px;
+        resize: vertical;
+    }
+    
+    .file-input-label {
+        background-color: #A9935B;
+        color: #000;
+        padding: 10px 15px;
+        border-radius: 6px;
+        display: block;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px dashed #D0AF59;
+    }
+    
+    .file-input-label:hover {
+        background-color: #D0AF59;
+    }
+    
+    .file-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .submit-btn {
+        background-color: #A56826;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .submit-btn:hover {
+        background-color: #8a4e1a;
+        transform: translateY(-2px);
+    }
+    
+    .preview-image {
+        max-width: 100%;
+        max-height: 300px;
+        margin-top: 15px;
+        border-radius: 6px;
+        display: none;
+        border-radius: 8px;
+        border: 2px solid #D0AF59;
+    }
+
+    .post-image.img-fluid {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 2px solid #D0AF59;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 15px 0;
+        display: block;
+        background-color: #A9935B;
+        padding: 5px;
+    }
+
+    .post-image.img-fluid:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        border-color: #A56826;
+    }
+
+    /* Адаптация под разные размеры */
+    @media (max-width: 768px) {
+        .post-image.img-fluid {
+            max-width: 90%;
+            margin: 10px auto;
+        }
+    }
+
+    /* Для постов с текстом рядом */
+    .post-with-text .post-image.img-fluid {
+        max-width: 80%;
+        float: right;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Эффект загрузки */
+    .post-image.img-fluid.loading {
+        background: linear-gradient(90deg, #A9935B 25%, #D0AF59 50%, #A9935B 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
 </style>

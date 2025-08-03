@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.files import File
 from django.contrib.auth import authenticate
+from django.conf import settings
+from django.db import models
 
 class Post(models.Model):
 	title = models.CharField(max_length=255, verbose_name='Название')
@@ -12,6 +14,7 @@ class Post(models.Model):
 	photo = models.ImageField(upload_to='photo', blank=True, null=True, verbose_name='Фото') # не обязательно для заполнения.
 	watched = models.IntegerField(default=0, verbose_name='Просмотры')
 	is_published = models.BooleanField(default=True, verbose_name='Видимость')
+	
 
 	def __str__(self):
 		return self.title

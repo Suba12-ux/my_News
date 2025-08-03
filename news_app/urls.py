@@ -8,8 +8,8 @@ urlpatterns = [
     path('singin', user_login, name='page_singin'),
     path('singout', user_logout, name='page_singout'),
     path('registration', registration, name='page_regist'),
-    path('add_post', PostAddForm, name='creat_post'),
-
+    path('add_post', add_post, name='creat_post'),
+    path('del_post', del_post, name='del_post'),
 ] 
 
 if settings.DEBUG: 

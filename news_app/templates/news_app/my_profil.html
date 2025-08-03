@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<style>
+    .profile-container {
+        background-color: #A9935B;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #D0AF59;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #D0AF59;
+        padding-bottom: 15px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #D0AF59;
+        margin-right: 20px;
+    }
+
+    .profile-info h2 {
+        color: #000;
+        margin: 0;
+        font-size: 1.8rem;
+    }
+
+    .profile-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .detail-card {
+        background-color: rgba(213, 188, 91, 0.2);
+        padding: 15px;
+        border-radius: 6px;
+        border-left: 3px solid #A56826;
+    }
+
+    .detail-card h3 {
+        color: #000;
+        margin-top: 0;
+        font-size: 1.1rem;
+    }
+
+    .detail-value {
+        font-size: 1.2rem;
+        color: #000;
+        font-weight: 500;
+    }
+
+    .edit-btn {
+        background-color: #A56826;
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .edit-btn:hover {
+        background-color: #8a4e1a;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+        
+        .profile-details {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-header">
+        {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" class="profile-avatar" alt="Аватар">
+        {% else %}
+        <div class="profile-avatar" style="background-color: #D0AF59; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 2rem; color: #000;">{{ user.username|first|upper }}</span>
+        </div>
+        {% endif %}
+        
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            <p>Участник с {{ user.date_joined|date:"d.m.Y" }}</p>
+        </div>
+    </div>
+
+    <div class="profile-details">
+        <div class="detail-card">
+            <h3>Имя</h3>
+            <p class="detail-value">
+                {% if user.first_name %}
+                    {{ user.first_name }}
+                {% else %}
+                    Не указано
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="detail-card">
+            <h3>Фамилия</h3>
+            <p class="detail-value">
+                {% if user.last_name %}
+                    {{ user.last_name }}
+                {% else %}
+                    Не указана
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="detail-card">
+            <h3>Email</h3>
+            <p class="detail-value">{{ user.email }}</p>
+        </div>
+
+        <div class="detail-card">
+            <h3>Дата рождения</h3>
+            <p class="detail-value">
+                {% if user.profile.birth_date %}
+                    {{ user.profile.birth_date|date:"d.m.Y" }}
+                {% else %}
+                    Не указана
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <a href="" class="edit-btn">Редактировать профиль</a>
+</div>
+{% endblock %}

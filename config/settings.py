@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
-"""
+""" 
 
 from pathlib import Path
 import os.path
@@ -43,9 +43,9 @@ STATIC_ROOT = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-
-
-
+# Установите время жизни сессии (по умолчанию)
+SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах (для remember_me)
+SESSION_SAVE_EVERY_REQUEST = True  # Обновлять срок при каждом запросе
 
 # Application definition
 

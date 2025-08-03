@@ -1,0 +1,153 @@
+<!-- messages.html -->
+<div class="messages-container">
+    {% if messages %}
+    <div class="messages-list">
+        {% for message in messages %}
+        <div class="alert-message alert-{{ message.tags }}">
+            <div class="message-content">
+                {{ message }}
+            </div>
+            <button type="button" class="close-btn" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Стили сообщений в вашей цветовой гамме */
+    .messages-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .alert-message {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.3s ease-out forwards;
+        opacity: 0;
+        transform: translateX(100%);
+        border-left: 5px solid;
+    }
+
+    /* Анимация появления */
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Цвета для разных типов сообщений */
+    .alert-success {
+        background-color: #A9935B;
+        border-color: #5cb85c;
+        color: #000;
+    }
+
+    .alert-error, .alert-danger {
+        background-color: #A9935B;
+        border-color: #d9534f;
+        color: #000;
+    }
+
+    .alert-info {
+        background-color: #A9935B;
+        border-color: #5bc0de;
+        color: #000;
+    }
+
+    .alert-warning {
+        background-color: #A9935B;
+        border-color: #f0ad4e;
+        color: #000;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: #000;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 15px;
+        line-height: 1;
+        transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+        color: #A56826;
+        transform: scale(1.2);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 576px) {
+        .messages-container {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            max-width: none;
+        }
+        
+        .alert-message {
+            padding: 12px 15px;
+        }
+    }
+</style>
+
+<script>
+    // Скрипт для закрытия сообщений
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.close-btn');
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const message = this.closest('.alert-message');
+                message.style.animation = 'slideOut 0.3s ease-out forwards';
+                
+                // Удаляем сообщение после анимации
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            });
+        });
+        
+        // Автоматическое закрытие через 5 секунд
+        const messages = document.querySelectorAll('.alert-message');
+        messages.forEach(message => {
+            setTimeout(() => {
+                message.style.animation = 'slideOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }, 5000);
+        });
+    });
+    
+    // Добавляем анимацию исчезновения
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
