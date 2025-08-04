@@ -25,7 +25,11 @@ def registration(request):
             try:
                 user = form.save()
                 messages.success(request, 'Регистрация прошла успешно! Теперь вы можете войти.')
+<<<<<<< HEAD
                 return redirect('page_singin')
+=======
+                return redirect('page_singout')
+>>>>>>> 9345e328f8c264896752981a6fadca7cef415606
             except Exception as e:
                 messages.error(request, f'Произошла ошибка при регистрации: {str(e)}')
         else:
@@ -39,6 +43,7 @@ def registration(request):
             'title': 'Регистрация',
             'form': form,
         }
+<<<<<<< HEAD
         messages.success(request, 'Заполните поля.')
         return render(request, 'news_app/registration.html', context)
 
@@ -68,6 +73,32 @@ def del_post(request, title_name):
     post.delete()
     messages.success(request, 'Пост удален.')
     return redirect('page_main')
+=======
+        return render(request, 'news_app/registration.html', context)
+
+def add_post(request):
+	"""Создание поста не в админке"""
+	if request.method  == 'POST':
+		form = PostAddForm(request.POST, request.FILES)
+
+		if form.is_valid():
+			post = Post.objects.create(**form.cleaned_data)
+			post.save()
+			return redirect('page_main')
+	else:
+		form = PostAddForm()
+		text = {
+			'title': 'Создание статьи',
+			'form': form,
+		}
+		return render(request, 'news_app/new_post.html', text)
+
+def del_post(request, title_name):
+	"""Удаление поста не в админке"""
+	post = Post.objects.get(title = title_name)
+	post.delete()
+	return redirect('page_main')
+>>>>>>> 9345e328f8c264896752981a6fadca7cef415606
 
 def user_login(request):
     """Вход пользователя"""
@@ -102,6 +133,7 @@ def user_login(request):
     else:
         form = Login_form(request)  # Передаем request в форму
     
+<<<<<<< HEAD
         context = {
             'title': 'Вход',
             'form': form,
@@ -114,4 +146,16 @@ def user_logout(request):
     logout(request)
     messages.success(request, 'Выход осуществлен.')
     return redirect('page_main')
+=======
+    context = {
+        'title': 'Вход',
+        'form': form,
+    }
+    return render(request, 'news_app/singin.html', context)
+
+def user_logout(request):
+	'''Выход из профиля'''
+	logout(request)
+	return redirect('page_main')
+>>>>>>> 9345e328f8c264896752981a6fadca7cef415606
 
