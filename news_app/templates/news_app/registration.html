@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<<<<<<< HEAD
+
     <div class="parent-container" >
         <div class="container-wrapper" style="background-color: #F7B975">
-=======
+
     <div class="parent-container">
-        <div class="container-wrapper">
->>>>>>> 9345e328f8c264896752981a6fadca7cef415606
+        <div class="container-wrapper" style="background-color: #F7B975">
+
             <h2 class="text-center mb-4" style="color: #000;">Регистрация</h2>
             
             <!-- Сообщения об ошибках -->
             {% if messages %}
             <div class="mb-4">
                 {% for message in messages %}
-<<<<<<< HEAD
-                <div class="alert alert-{{ message.tags }}" style="background-color: #A9935B; border: none; color: #000;">
-=======
+
                 <div class="alert alert-{{ message.tags }}" style="background-color: #D0AF59; border: none; color: #000;">
->>>>>>> 9345e328f8c264896752981a6fadca7cef415606
+
                     {{ message }}
                 </div>
                 {% endfor %}

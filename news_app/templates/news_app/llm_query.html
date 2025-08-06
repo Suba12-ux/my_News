@@ -1,0 +1,152 @@
+<!-- templates/query.html -->
+{% extends 'base.html' %}
+
+{% block main %}
+<style>
+    .llm-container {
+        background-color: #A9935B;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 30px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #D0AF59;
+    }
+    
+    .chat-box {
+        height: 400px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: rgba(213, 188, 91, 0.2);
+        border-radius: 6px;
+    }
+    
+    .message {
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        border-radius: 8px;
+        max-width: 80%;
+    }
+    
+    .user-message {
+        background-color: #D0AF59;
+        margin-left: auto;
+    }
+    
+    .bot-message {
+        background-color: #A56826;
+        color: white;
+    }
+    
+    .input-group {
+        display: flex;
+        gap: 10px;
+    }
+    
+    #prompt-input {
+        flex-grow: 1;
+        padding: 12px;
+        border-radius: 6px;
+        border: 2px solid #D0AF59;
+        background-color: #A9935B;
+        color: #000;
+    }
+    
+    #send-btn {
+        background-color: #A56826;
+        color: white;
+        border: none;
+        padding: 0 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    #send-btn:hover {
+        background-color: #8a4e1a;
+    }
+    
+    .typing-indicator {
+        display: none;
+        color: #666;
+        font-style: italic;
+    }
+</style>
+
+<div class="llm-container">
+    <h2>Чат с AI ассистентом</h2>
+    
+    <div class="chat-box" id="chat-box">
+        <div class="message bot-message">
+            Привет! Я ваш AI помощник. Задайте мне любой вопрос.
+        </div>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" id="prompt-input" placeholder="Введите ваш запрос...">
+        <button id="send-btn">Отправить</button>
+    </div>
+    
+    <div class="typing-indicator" id="typing-indicator">
+        AI печатает...
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatBox = document.getElementById('chat-box');
+    const promptInput = document.getElementById('prompt-input');
+    const sendBtn = document.getElementById('send-btn');
+    const typingIndicator = document.getElementById('typing-indicator');
+    
+    function addMessage(text, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        messageDiv.textContent = text;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    sendBtn.addEventListener('click', sendMessage);
+    promptInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+    
+    function sendMessage() {
+        const prompt = promptInput.value.trim();
+        if (!prompt) return;
+        
+        // Добавляем сообщение пользователя
+        addMessage(prompt, true);
+        promptInput.value = '';
+        
+        // Показываем индикатор набора
+        typingIndicator.style.display = 'block';
+        
+        // Отправляем запрос на сервер
+        fetch('/llm_query/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: `prompt=${encodeURIComponent(prompt)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            typingIndicator.style.display = 'none';
+            if (data.response) {
+                addMessage(data.response, false);
+            } else if (data.error) {
+                addMessage(`Ошибка: ${data.error}`, false);
+            }
+        })
+        .catch(error => {
+            typingIndicator.style.display = 'none';
+            addMessage(`Ошибка соединения: ${error}`, false);
+        });
+    }
+});
+</script>
+{% endblock %}

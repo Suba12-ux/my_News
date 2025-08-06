@@ -6,6 +6,13 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm as Login_form
 from django.contrib.auth import login as auth_login
+# views.py
+import requests
+from django.views.generic import View
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 def main_page(request):
 	'''Главная страница'''
@@ -25,47 +32,32 @@ def registration(request):
             try:
                 user = form.save()
                 messages.success(request, 'Регистрация прошла успешно! Теперь вы можете войти.')
-<<<<<<< HEAD
+
                 return redirect('page_singin')
-=======
-                return redirect('page_singout')
->>>>>>> 9345e328f8c264896752981a6fadca7cef415606
+
             except Exception as e:
                 messages.error(request, f'Произошла ошибка при регистрации: {str(e)}')
         else:
             # Добавляем ошибки формы в сообщения
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'{field}: {error}')
+            #for field, errors in form.errors.items():
+            #    for error in errors:
+            context = {
+                'title': 'Регистрация',
+                'form': form,
+                'messages': messages.error
+                }
+                #messages.error(request, error)
+            return render(request, 'news_app/registration.html', context)
     else:
         form = RegistrationForms()
         context = {
             'title': 'Регистрация',
             'form': form,
         }
-<<<<<<< HEAD
+
         messages.success(request, 'Заполните поля.')
         return render(request, 'news_app/registration.html', context)
 
-def add_post(request):
-    """Создание поста не в админке"""
-    if request.method  == 'POST':
-        form = PostAddForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            post = Post.objects.create(**form.cleaned_data)
-            post.save()
-            messages.success(request, 'Пост успешно добавлен.')
-            return redirect('page_main')
-
-    else:
-        form = PostAddForm()
-        text = {
-            'title': 'Создание статьи',
-            'form': form,
-        }
-        messages.success(request, 'Заполните поля.')
-        return render(request, 'news_app/new_post.html', text)
 
 def del_post(request, title_name):
     """Удаление поста не в админке"""
@@ -73,8 +65,6 @@ def del_post(request, title_name):
     post.delete()
     messages.success(request, 'Пост удален.')
     return redirect('page_main')
-=======
-        return render(request, 'news_app/registration.html', context)
 
 def add_post(request):
 	"""Создание поста не в админке"""
@@ -92,13 +82,6 @@ def add_post(request):
 			'form': form,
 		}
 		return render(request, 'news_app/new_post.html', text)
-
-def del_post(request, title_name):
-	"""Удаление поста не в админке"""
-	post = Post.objects.get(title = title_name)
-	post.delete()
-	return redirect('page_main')
->>>>>>> 9345e328f8c264896752981a6fadca7cef415606
 
 def user_login(request):
     """Вход пользователя"""
@@ -133,7 +116,6 @@ def user_login(request):
     else:
         form = Login_form(request)  # Передаем request в форму
     
-<<<<<<< HEAD
         context = {
             'title': 'Вход',
             'form': form,
@@ -146,7 +128,7 @@ def user_logout(request):
     logout(request)
     messages.success(request, 'Выход осуществлен.')
     return redirect('page_main')
-=======
+
     context = {
         'title': 'Вход',
         'form': form,
@@ -157,5 +139,51 @@ def user_logout(request):
 	'''Выход из профиля'''
 	logout(request)
 	return redirect('page_main')
->>>>>>> 9345e328f8c264896752981a6fadca7cef415606
 
+
+class LLMQueryView(View):
+    template_name = 'news_app/llm_query.html'
+    
+    def get(self, request):
+        return render(request, self.template_name)
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def post(self, request):
+        prompt = request.POST.get('prompt', '')
+        
+        try:
+            # Здесь делаем запрос к вашему LLM API
+            response = self.query_llm(prompt)
+            return JsonResponse({'response': response})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    def query_llm(self, prompt):
+        """Запрос к локальному JAN API серверу"""
+        api_url = "http://127.0.0.1:49688/v1/chat/completions"  # Уточните endpoint вашего API 
+    
+        data = {
+            "model": "gemma3:12b",  # Укажите название вашей модели
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+    
+        try:
+            response = requests.post(
+                api_url,
+                json=data,
+                headers={"Content-Type": "application/json"},
+                timeout=30  # Увеличиваем таймаут для локального API
+            )
+            response.raise_for_status()
+        
+            # Адаптируйте под структуру ответа вашего API
+            return response.json()['choices'][0]['message']['content']
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"Ошибка подключения к JAN API: {str(e)}")
+        except KeyError:
+            raise Exception("Неверный формат ответа от API")

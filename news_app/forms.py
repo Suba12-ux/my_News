@@ -9,7 +9,7 @@ class PostAddForm(forms.ModelForm):
 	class Meta:
 		"""Ахитектура класса, наследуется от самого себя"""
 		model = Post 
-		fields = ['title', 'content', 'photo']
+		fields = ('title', 'content', 'photo')
 
 
 
